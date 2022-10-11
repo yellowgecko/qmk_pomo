@@ -1,0 +1,22 @@
+TODO
+
+- fix backspace repeat
+- need to add nav keys for VIM for this keyboard in VIM config. maybe switchable based on keyb
+- TRY in new branch ... holding N or T = SHFIT, holding E or R = CTRL
+- on num block/layer use num row keys so shifted versions have symbols as usual
+ plus a lot ogf combos here: http://www.keyboard-layout-editor.com/#/gists/d9cfb587512441311a230eb27d9f9add
+ - try using mouse keys
+- fix terminal open ... what happened to screen lock
+- consider switching layer/nav thumb keys to around so opposite site thumb key from key layer keys. e.g. NUM layer key on left. NUM keys on right. 
+<<<<<<< HEAD
+
+=======
+- use a left hand home row modifier for triggering UMLAUTE
+>>>>>>> HOMI
+
+
+DONE
+- move vim escape to a different combination - now top inner keys
+- flip inner and outer thumb keys around. inner will be space/backspace. outer will be layer modifiers
+- fix umlaute. only works on qwerty layer because of COMBO_ONLY_LAYER 0 rule. same keys onn all layers. fix by removing QWERTY layer ..... QWERTY layer has been removed
+
