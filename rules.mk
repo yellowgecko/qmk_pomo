@@ -1,4 +1,3 @@
-
 # Bootloader selection
 # the original is 'caterina'  used for pro micro.
 BOOTLOADER = qmk-dfu
@@ -10,7 +9,7 @@ EXTRAKEY_ENABLE = no       # Audio control and System control
 COMMAND_ENABLE = no         # Commands for debug and configuration
 NKRO_ENABLE = no            # Enable N-Key Rollover
 BACKLIGHT_ENABLE = no       # Enable keyboard backlight functionality
-RGBLIGHT_ENABLE = no        # Enable keyboard RGB underglow
+RGBLIGHT_ENABLE = yes        # Enable keyboard RGB underglow
 UNICODE_ENABLE = no        # Unicode
 AUDIO_ENABLE = no           # Audio output
 WPM_ENABLE = no
@@ -38,6 +37,7 @@ ENCODER_MAP_ENABLE = yes
 SPACE_CADET_ENABLE = no
 GRAVE_ESC_ENABLE = no
 
+DEFERRED_EXEC_ENABLE = yes
 
 VERBOSE = no
 DEBUG_MATRIX_SCAN_RATE  = no
