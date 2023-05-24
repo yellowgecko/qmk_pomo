@@ -1,6 +1,12 @@
 #include QMK_KEYBOARD_H
 
 
+void keyboard_post_init_user(void) {
+    rgblight_sethsv_at(HSV_GOLD, 0); // led 0
+    rgblight_mode(0);           // set to static mode
+    rgblight_disable();         // turn light off
+    /* rgblight_set(); */
+}
 void matrix_init_user(void) {
   //debug_enable=true;
   //debug_matrix=true;
@@ -9,18 +15,15 @@ void matrix_init_user(void) {
 }
 
 
-// ___ DEFINES __________________________________________________________________________ 
+// ___ DEFINES __________________________________________________________________________
 // layers
-/* #define L_NAV LT(_NAV, KC_ENT) */        // removed enter key from this LT
 #define L_NAV MO(_NAV)
-#define L_NUM LT(_NUM, KC_BSPC)
-
+#define L_NUM LT(_NUM, KC_BSPC)             // /*! TODO: enhance to tap hold to repeat backspace
 
 // cosmetic
 #define xxxxxxx KC_NO
 
 // added space-control for right space key
-/* #define SPCCTRL MT(MOD_LCTL, KC_SPC)    // SPACE or mod CTRL toggle */
 #define ENTCTL CTL_T(KC_ENT)             // replacing SPCCTRL above
 #define RTAB KC_TAB                     // normal tab
 //#define LTAB RSFT(KC_TAB)               // tab back to the left ... currently not used
@@ -42,16 +45,18 @@ void matrix_init_user(void) {
 #define AW_5 LGUI(KC_5)             // screen 5
 #define AW_6 LGUI(KC_6)             // screen 6
 
+
+#define AW_MON LGUI(LSFT(KC_M))     // switch monitor toggle
 #define AW_LAY LGUI(KC_SPC)         // next layout
 #define AW_IS LGUI(LCTL(KC_J))      // increase gap
 #define AW_DS LGUI(LCTL(KC_K))      // decrease gap
-#define AW_FS LGUI(KC_F)            // full 
+#define AW_FS LGUI(KC_F)            // full
 
-#define AW_RN LGUI(KC_R)            // run ...rofi 
+#define AW_RN LGUI(KC_R)            // run ...rofi
 #define AW_MN LGUI(KC_W)            // menu
                                     //
 #define AW_CON LGUI(KC_ENT)         // new terminal
-#define AW_QT LGUI(LSFT(KC_C))      // kill
+/* #define AW_QT LGUI(LSFT(KC_C))      // kill --> became a double tap */
 
 #define AW_LK LGUI(LCTL(KC_A))      // lock screen
 #define AW_TL LGUI(LSFT(KC_A))      // toggle lock screen for video stuff ... toggles compton as well
@@ -61,45 +66,20 @@ void matrix_init_user(void) {
 // moving the CTRL mods to row UNDER shift mods as easy roll over typos
 #define T_LSFT MT(MOD_LSFT, KC_T)
 #define N_LSFT MT(MOD_LSFT, KC_N)
-/* #define R_CTRL MT(MOD_LCTL, KC_R) */
-/* #define E_CTRL MT(MOD_LCTL, KC_E) */
 
-/* #define T_LSFT MT(MOD_LSFT, KC_T) */
-/* #define N_LSFT MT(MOD_LSFT, KC_N) */
-/* #define D_CTRL MT(MOD_LCTL, KC_D) */
-/* #define H_CTRL MT(MOD_LCTL, KC_H) */
 #define CONF LT(_CONF, KC_Q)
-// #define A
-// _LT LGUI(KC_J)         // previous client
-// #define AW_RT LGUI(KC_K)         // next client
-// #define AW_SL LGUI(LSFT(KC_J))   // switch previous client
-// #define AW_SR LGUI(LSFT(KC_K))   // switch next client
-// #define AW_IW LGUI(KC_H)         // increase size, columns
-// #define AW_DW LGUI(KC_L)         // decrease size, columns
-// #define AW_TAB LGUI(KC_TAB)      // next screen
-// #define AW_FS LGUI(KC_F)         // full screen
-// #define AW_FL LGUI(LCTL(KC_SPC)) // float client
 
+
+// set initial RGB values
+/* rgblight_setrgb_at(RGB_TEAL, 0); */
+#define T10                         // 10 sec timer
 
 enum ferris_layers {
-  /* _QWERT, */
   _ISRT,
   _NUM,
-  _NAV, 
+  _NAV,
   _CONF,
 };
-
-/* enum ferris_keycodes { */
-/* //  QWERT = 0, */
-/* //  ISRT, */
-/*   LOGIN = SAFE_RANGE,         // switch keymap */
-/*   /1* SWMAP, *1/ */
-/*   /1* PASSWD, *1/ */
-/*   /1* SECRT, *1/ */
-/* //  NEMO, */
-/* // TILD, */
-/* // CIRC, */
-/* }; */
 
 enum {
     SPCSFT = 0,
@@ -116,7 +96,7 @@ enum {
     QUOT,           // quote, double quote and dead key grave
     COLN,           // for tap dance on colon key: colon, semicolon, pipe
     DOTCOM,         // dot comma tap dance for numpad
-    ASTSLA,         // asterix slash tap dance for numpad
+    ASTSLA,         // asterix slash tap dance for numpad /*! TODO: currently not used in keymap
     TILD,           // TILDE or TILDE with SPACE
     CIRC,           // CIRC or CIRC with SPACE
     GRVE,           // GRAVE or GRAVE with SPACE
@@ -132,9 +112,8 @@ enum {
     UP,             // up and pgup
     DN,             // down and pgdown
 
-    // awesome change, more or resize client tap dance
-    // awesome change, more or resize client tap dance
-    // awesome change, more or resize client tap dance
+    TERM,           // double tap for terminal or terminal PLUS nnn
+    AWQT,           // double top to quit
     AWLE,           // next client left or re size client
     AWRE,           // previous client right or re size client
     AW1,            // for window switching using tap dance/ double tap
@@ -143,6 +122,9 @@ enum {
     AW4,
     AW5,
     AW6,
+    POMO,
+    ARLF,
+    ARRG,
     };
 
 
@@ -151,7 +133,7 @@ enum {
 /* JK combo for nvim like esc */
 /* A/U/O umlaute          */
 enum _combos {
-  NVIM_ESC,
+  NVIM_ESC,                         // /*! TODO: find a better NVIM_ESC, maybe 'ii'
   A_UML,
   O_UML,
   U_UML,
@@ -160,7 +142,7 @@ enum _combos {
 
 uint16_t COMBO_LEN = COMBO_LENGTH;  // remove the COMBO_COUNT define and use this instead!
 
-const uint16_t PROGMEM nvim_esc_combo[] = {KC_K, KC_Z, COMBO_END};
+const uint16_t PROGMEM nvim_esc_combo[] = {KC_G, KC_P, COMBO_END};
 const uint16_t PROGMEM a_uml_combo[] = {KC_E, KC_A, COMBO_END};
 const uint16_t PROGMEM u_uml_combo[] = {KC_E, KC_U, COMBO_END};
 const uint16_t PROGMEM o_uml_combo[] = {KC_E, KC_O, COMBO_END};
@@ -221,6 +203,7 @@ typedef struct {
 } tap;
 
 enum {
+  TD_NONE = 0,
   SINGLE_TAP = 1,
   SINGLE_HOLD = 2,
   DOUBLE_TAP = 3,
@@ -230,16 +213,16 @@ enum {
   TRIPLE_HOLD = 7
 };
 
-int cur_dance (qk_tap_dance_state_t *state);
+int cur_dance (tap_dance_state_t *state);
 
 //for the x tap dance. Put it here so it can be used in any keymap
-void spcsft_finished (qk_tap_dance_state_t *state, void *user_data);
-void spcsft_reset    (qk_tap_dance_state_t *state, void *user_data);
-/* void level_finished  (qk_tap_dance_state_t *state, void *user_data); */
-/* void level_reset     (qk_tap_dance_state_t *state, void *user_data); */
+void spcsft_finished (tap_dance_state_t *state, void *user_data);
+void spcsft_reset    (tap_dance_state_t *state, void *user_data);
+/* void level_finished  (tap_dance_state_t *state, void *user_data); */
+/* void level_reset     (tap_dance_state_t *state, void *user_data); */
 
 
-int cur_dance (qk_tap_dance_state_t *state) {
+int cur_dance (tap_dance_state_t *state) {
   if (state->count == 1) {
     if (state->interrupted || !state->pressed)  return SINGLE_TAP;
     //key has not been interrupted, but they key is still held. Means you want to send a 'HOLD'.
@@ -267,13 +250,13 @@ int cur_dance (qk_tap_dance_state_t *state) {
 
 //instanalize an instance of 'tap' for the 'x' tap dance.
 static tap xtap_state = { .is_press_action = true,
-  .state = 0
+  .state = TD_NONE
 };
 
 
 
 /* ___ SPACE SHIFT CAPSWORD  ________________________________________________________________ */
-void spcsft_finished (qk_tap_dance_state_t *state, void *user_data) {
+void spcsft_finished (tap_dance_state_t *state, void *user_data) {
   xtap_state.state = cur_dance(state);
   switch (xtap_state.state) {
     case SINGLE_TAP: register_code(KC_SPC); break;
@@ -287,7 +270,7 @@ void spcsft_finished (qk_tap_dance_state_t *state, void *user_data) {
   }
 }
 
-void spcsft_reset (qk_tap_dance_state_t *state, void *user_data) {
+void spcsft_reset (tap_dance_state_t *state, void *user_data) {
   switch (xtap_state.state) {
     case SINGLE_TAP: unregister_code(KC_SPC); break;
     case SINGLE_HOLD: unregister_code(KC_LSFT); break;
@@ -303,7 +286,7 @@ void spcsft_reset (qk_tap_dance_state_t *state, void *user_data) {
 uint8_t mod_state;
 /* __ ; : | __________DANCE COLON____________________________________________________ */
 /* three taps ; : |                              */
-void dance_colon_each (qk_tap_dance_state_t *state, void *user_data) {
+void dance_colon_each (tap_dance_state_t *state, void *user_data) {
     switch (state->count) {
         case 1:
             del_mods(MOD_MASK_SHIFT);
@@ -321,7 +304,7 @@ void dance_colon_each (qk_tap_dance_state_t *state, void *user_data) {
 }
 
 /* ____________ DANCE QUOTE____________________________________________________ */
-void dance_quote_each (qk_tap_dance_state_t *state, void *user_data) {
+void dance_quote_each (tap_dance_state_t *state, void *user_data) {
   switch (state->count) {
   case 1:
       del_mods(MOD_MASK_SHIFT);
@@ -343,7 +326,7 @@ void dance_quote_each (qk_tap_dance_state_t *state, void *user_data) {
 }
 
 /* __/ ? \ |__________DANCE PIPE____________________________________________________ */
-void dance_pipe_each (qk_tap_dance_state_t *state, void *user_data) {
+void dance_pipe_each (tap_dance_state_t *state, void *user_data) {
   switch (state->count) {
   case 1:
       del_mods(MOD_MASK_SHIFT);
@@ -365,12 +348,10 @@ void dance_pipe_each (qk_tap_dance_state_t *state, void *user_data) {
 
 
 /* ___________DANCE CIRC ____________________________________________________ */
-void dance_circ (qk_tap_dance_state_t *state, void *user_data) {
+void dance_circ (tap_dance_state_t *state, void *user_data) {
   switch (state->count) {
   case 1:
-      del_mods(MOD_MASK_SHIFT);
-      tap_code16(LSFT(KC_6));
-      tap_code16(KC_SPC);
+        tap_code16(KC_CIRC);
     break;
   case 2:
       del_mods(MOD_MASK_SHIFT);
@@ -382,7 +363,7 @@ void dance_circ (qk_tap_dance_state_t *state, void *user_data) {
   }
 }
 /* ___________DANCE TILD ____________________________________________________ */
-void dance_tild (qk_tap_dance_state_t *state, void *user_data) {
+void dance_tild (tap_dance_state_t *state, void *user_data) {
   switch (state->count) {
   case 1:
       del_mods(MOD_MASK_SHIFT);
@@ -402,7 +383,7 @@ void dance_tild (qk_tap_dance_state_t *state, void *user_data) {
 
 /* _____________________________________________________________________________ */
 /* ___________DANCE GRVE ____________________________________________________ */
-void dance_grve (qk_tap_dance_state_t *state, void *user_data) {
+void dance_grve (tap_dance_state_t *state, void *user_data) {
   switch (state->count) {
   case 1:
       del_mods(MOD_MASK_SHIFT);
@@ -426,7 +407,7 @@ void dance_grve (qk_tap_dance_state_t *state, void *user_data) {
 
 /* _____________________________________________________________________________ */
 /* ___________DANCE SECURE ____________________________________________________ */
-void dance_secure (qk_tap_dance_state_t *state, void *user_data) {
+void dance_secure (tap_dance_state_t *state, void *user_data) {
   switch (state->count) {
   case 1:
         break;
@@ -441,34 +422,25 @@ void dance_secure (qk_tap_dance_state_t *state, void *user_data) {
 }
 
 
+/* __________ terminal or nnn tap dance _____________________________________ */
 
-/* _____________________________________________________________________________ */
-/* ___________DANCE SWAP MAP ____________________________________________________ */
-// no longer needed as QWERTY layer removed
-/* void dance_swap_map (qk_tap_dance_state_t *state, void *user_data) { */
-/*   switch (state->count) { */
-/*   case 1: */
-/*     break; */
-/*   case 2: */
-/* //      del_mods(MOD_MASK_SHIFT); */
-/*       if (layer_state_is(_ISRT)) { */
-/*           /1* SEND_STRING("ISRT is on. switching off ISRT\n"); *1/ */
-/*           layer_off(_ISRT); */
-/*       } else { */
-/*           /1* SEND_STRING("ISRT is off. switching on ISRT\n"); *1/ */
-/*           layer_on(_ISRT); */
-/*       } */
-/*       break; */
-/*   case 3: */
-/*       reset_tap_dance (state); */
-/*       break; */
-/*   } */
-/* } */
-
+ void dance_terminal (tap_dance_state_t *state, void *user_data) {
+   switch (state->count) {
+   case 1:
+     // previous client
+     SEND_STRING(SS_LGUI("\n"));
+     break;
+   case 2:
+     SEND_STRING(SS_LGUI("\n"));
+     SEND_STRING(SS_DELAY(300) "nn\n");
+     reset_tap_dance (state);
+     break;
+   }
+ }
 
 /* _____________________________________________________________________________ */
 /* ___________ TAP DANCES for AWESOMEWM window switching _______________________ */
-void tdaw1 (qk_tap_dance_state_t *state, void *user_data) {
+void tdaw1 (tap_dance_state_t *state, void *user_data) {
   switch (state->count) {
   case 1:
     SEND_STRING(SS_LGUI("1"));  // go to screen 1
@@ -479,10 +451,9 @@ void tdaw1 (qk_tap_dance_state_t *state, void *user_data) {
     break;
   }
 }
+
 /* ---------------- */
-
-
-void tdaw2 (qk_tap_dance_state_t *state, void *user_data) {
+void tdaw2 (tap_dance_state_t *state, void *user_data) {
   switch (state->count) {
   case 1:
     SEND_STRING(SS_LGUI("2"));  // go to screen 1
@@ -493,9 +464,9 @@ void tdaw2 (qk_tap_dance_state_t *state, void *user_data) {
     break;
   }
 }
-/* ---------------- */
 
-void tdaw3 (qk_tap_dance_state_t *state, void *user_data) {
+/* ---------------- */
+void tdaw3 (tap_dance_state_t *state, void *user_data) {
   switch (state->count) {
   case 1:
     SEND_STRING(SS_LGUI("3"));  // go to screen 1
@@ -506,9 +477,9 @@ void tdaw3 (qk_tap_dance_state_t *state, void *user_data) {
     break;
   }
 }
-/* ---------------- */
 
-void tdaw4 (qk_tap_dance_state_t *state, void *user_data) {
+/* ---------------- */
+void tdaw4 (tap_dance_state_t *state, void *user_data) {
   switch (state->count) {
   case 1:
     SEND_STRING(SS_LGUI("4"));  // go to screen 1
@@ -519,9 +490,9 @@ void tdaw4 (qk_tap_dance_state_t *state, void *user_data) {
     break;
   }
 }
-/* ---------------- */
 
-void tdaw5 (qk_tap_dance_state_t *state, void *user_data) {
+/* ---------------- */
+void tdaw5 (tap_dance_state_t *state, void *user_data) {
   switch (state->count) {
   case 1:
     SEND_STRING(SS_LGUI("5"));  // go to screen 1
@@ -532,9 +503,9 @@ void tdaw5 (qk_tap_dance_state_t *state, void *user_data) {
     break;
   }
 }
-/* ---------------- */
 
-void tdaw6 (qk_tap_dance_state_t *state, void *user_data) {
+/* ---------------- */
+void tdaw6 (tap_dance_state_t *state, void *user_data) {
   switch (state->count) {
   case 1:
     SEND_STRING(SS_LGUI("6"));  // go to screen 1
@@ -549,7 +520,7 @@ void tdaw6 (qk_tap_dance_state_t *state, void *user_data) {
 
 /* _____________________________________________________________________________ */
 /* ___________DANCE LOGIN ____________________________________________________ */
-void dance_login (qk_tap_dance_state_t *state, void *user_data) {
+void dance_login (tap_dance_state_t *state, void *user_data) {
   switch (state->count) {
   case 1:
     break;
@@ -567,7 +538,7 @@ void dance_login (qk_tap_dance_state_t *state, void *user_data) {
 /* _____________________________________________________________________________ */
 /* _____________________________________________________________________________ */
 /* ___ ALL AWESOMEWM DANCE FUNCTIONS ___________________________________________ */
-void aw_left_each (qk_tap_dance_state_t *state, void *user_data) {
+void aw_left_each (tap_dance_state_t *state, void *user_data) {
 
   switch (state->count) {
   case 1:
@@ -586,7 +557,7 @@ void aw_left_each (qk_tap_dance_state_t *state, void *user_data) {
   }
 }
 
-void aw_right_each (qk_tap_dance_state_t *state, void *user_data) {
+void aw_right_each (tap_dance_state_t *state, void *user_data) {
   switch (state->count) {
   case 1:
     // previous client
@@ -608,7 +579,7 @@ void aw_right_each (qk_tap_dance_state_t *state, void *user_data) {
 
 /* _____________________________________________________________________________ */
 /* ___ ALL BRACKET DANCE FUNCTIONS _____________________________________________ */
-void dance_rnd_brk_finished (qk_tap_dance_state_t *state, void *user_data) {
+void dance_rnd_brk_finished (tap_dance_state_t *state, void *user_data) {
   switch (state->count) {
       case 1:       // single tap .. open braket
           register_code (KC_LSFT); // send (
@@ -629,7 +600,7 @@ void dance_rnd_brk_finished (qk_tap_dance_state_t *state, void *user_data) {
 }
 
 /* ________________________________________________________________________ */
-void dance_rnd_brk_reset (qk_tap_dance_state_t *state, void *user_data) {
+void dance_rnd_brk_reset (tap_dance_state_t *state, void *user_data) {
   switch (state->count) {
       case 1:
           unregister_code (KC_LSFT); // send (
@@ -648,7 +619,7 @@ void dance_rnd_brk_reset (qk_tap_dance_state_t *state, void *user_data) {
 }
 
 /* ============ SQUARE BRACKET =============================================*/
-void dance_sqr_brk_finished (qk_tap_dance_state_t *state, void *user_data) {
+void dance_sqr_brk_finished (tap_dance_state_t *state, void *user_data) {
   switch (state->count) {
       case 1:
           unregister_code (KC_LSFT);
@@ -667,7 +638,7 @@ void dance_sqr_brk_finished (qk_tap_dance_state_t *state, void *user_data) {
   }
 }
 
-void dance_sqr_brk_reset (qk_tap_dance_state_t *state, void *user_data) {
+void dance_sqr_brk_reset (tap_dance_state_t *state, void *user_data) {
   switch (state->count) {
       case 1:
           unregister_code(KC_LBRC);
@@ -686,7 +657,7 @@ void dance_sqr_brk_reset (qk_tap_dance_state_t *state, void *user_data) {
 }
 
 
-void dance_cur_brk_finished (qk_tap_dance_state_t *state, void *user_data) {
+void dance_cur_brk_finished (tap_dance_state_t *state, void *user_data) {
   switch (state->count) {
       case 1:                           // send curly bracket
           // SEND_STRING("{");
@@ -700,7 +671,7 @@ void dance_cur_brk_finished (qk_tap_dance_state_t *state, void *user_data) {
           // SEND_STRING("]");
           break;
       case 3:
-          // SEND_STRING("[]"SS_TAP(X_LEFT));
+          // SEND_STRING("["SS_TAP(X_LEFT));
           register_code (KC_LSFT);
           register_code (KC_LBRC);
           register_code (KC_RBRC);
@@ -710,7 +681,7 @@ void dance_cur_brk_finished (qk_tap_dance_state_t *state, void *user_data) {
   }
 }
 
-void dance_cur_brk_reset (qk_tap_dance_state_t *state, void *user_data) {
+void dance_cur_brk_reset (tap_dance_state_t *state, void *user_data) {
   switch (state->count) {
       case 1:
           unregister_code (KC_LSFT);
@@ -730,13 +701,214 @@ void dance_cur_brk_reset (qk_tap_dance_state_t *state, void *user_data) {
 }
 
 
+/* ============ NEW SENTENCE =============================================*/
+void new_sentence (tap_dance_state_t *state, void *user_data) {
+  switch (state->count) {
+      case 2:
+          if (!(get_mods() & MOD_MASK_SHIFT )) {
+              tap_code (KC_SPC);
+              add_oneshot_mods(MOD_BIT(KC_LSFT));
+          } else {
+              tap_code (KC_DOT);
+          }
+          break;
+
+      case 3:
+          tap_code (KC_BSPC);
+          tap_code (KC_DOT);
+          tap_code (KC_DOT);
+          break;
+
+      default:
+          tap_code (KC_DOT);
+  }
+}
+
+void new_sentence_finsihed (tap_dance_state_t *state, void *user_data) {
+    /* tap_code16 (KC_SPC); */
+}
+
+/* ============ ARRROWS =============================================*/
+void arrow_left (tap_dance_state_t *state, void *user_data) {
+  switch (state->count) {
+      case 2:
+          tap_code16 (KC_LT);
+          tap_code16 (KC_LT);
+          break;
+
+      case 3:
+          tap_code16 (KC_LT);
+          tap_code16 (KC_MINS);
+          tap_code16 (KC_MINS);
+          break;
+
+      default:
+          tap_code16 (KC_LT);
+  }
+}
+
+
+void arrow_right (tap_dance_state_t *state, void *user_data) {
+  switch (state->count) {
+      case 2:
+          tap_code16 (KC_GT);
+          tap_code16 (KC_GT);
+          break;
+
+      case 3:
+          tap_code16 (KC_MINS);
+          tap_code16 (KC_MINS);
+          tap_code16 (KC_GT);
+          break;
+
+      default:
+          tap_code16 (KC_GT);
+  }
+}
+
+
+/* ____________________________________________________________________________________ */
+/* ___TIMERS __________________________________________________________________________ */
+/* deferred execution timers for testing */
+// uint32_t t_pomo_work = 7000;     // 10 sec - 3 sec
+// uint32_t t_pomo_alarm = 3000;     // 3 sec
+// uint32_t t_pomo_break = 3000;   // 6 sec - 3 sec
+// uint32_t t_pomo_pause = 10000;    // 10 sec
+
+/* deferred execution timers */
+uint32_t t_pomo_work = 1490000;     // 25min - 10 sec
+uint32_t t_pomo_alarm = 10000;     // 10 sec
+uint32_t t_pomo_break = 290000;   // 5 min - 10 sec
+uint32_t t_pomo_pause = 890000;    // 15 min
+
+uint8_t pomo_loop = 0;
+bool pomo_alarm = true;
+bool pomo_work = false;
+deferred_token timer_run = INVALID_DEFERRED_TOKEN;
+// phase w=work, s=short break, l=long break, c=canceled
+typedef enum { WORK,
+              BREAK,
+              PAUSE,
+              FINISHED,
+              /* CANCELED, */
+} phase;
+
+phase pomo_phase = WORK;
+
+bool pomo_canceled = false;
+
+/* ___SET COLORS HELPER FUNCTIONS _______________________________________________________ */
+
+void pomo_work_colors (void) {
+          rgblight_enable_noeeprom();         // turn light on
+          rgblight_sethsv_noeeprom(HSV_TEAL); // sets the color to teal/cyan without saving
+          rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING + 1);
+          pomo_phase = WORK;
+          pomo_loop += 1;
+          if ( pomo_loop == 4 ) { pomo_phase = PAUSE; }
+}
+
+
+void pomo_alarm_colors (void) {
+          rgblight_sethsv_noeeprom(HSV_RED); // sets the color to teal/cyan without saving
+          rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING + 4);
+          rgblight_enable_noeeprom();         // turn light on
+}
+
+void pomo_break_colors (void) {
+          rgblight_sethsv_noeeprom(HSV_GOLD); // sets the color to teal/cyan without saving
+          rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING + 1);
+          rgblight_enable_noeeprom();         // turn light on
+          pomo_phase = BREAK;
+}
+
+void pomo_pause_colors (void) {
+          rgblight_sethsv_noeeprom(HSV_GREEN); // sets the color to teal/cyan without saving
+          rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING + 0);
+          rgblight_enable_noeeprom();         // turn light on
+          pomo_phase = BREAK;
+          pomo_loop = 0;
+}
+
+void pomo_off (void) {
+          rgblight_disable_noeeprom();         // turn light on
+          pomo_loop = 0;
+          pomo_alarm = true;
+          cancel_deferred_exec(timer_run);
+}
+
+/* CALLBACK when timer is finished */
+/* used deferred for last seconds warning */
+uint32_t pomo_timer_end (uint32_t trigger_time, void *cb_arg) {
+  // do i need to process alarm at end of phase?
+  /* if ((pomo_alarm == true) && (pomo_phase != CANCELED)) { */
+  if (pomo_alarm == true)  {
+      pomo_alarm_colors();
+      pomo_alarm = false;
+      return t_pomo_alarm;
+  }
+  else {
+      // reset alarm and set up next timer and increase loop counter
+      /* if (pomo_loop == 4) { pomo_phase = FINISHED; } */
+      /* if (pomo_loop == 4) { pomo_phase = PAUSE;} */
+      pomo_alarm = true;
+      // set up next timer - either break ore work
+      switch(pomo_phase) {
+          case WORK:
+              // this is end of work timer
+              pomo_break_colors();
+              timer_run = defer_exec(t_pomo_break, pomo_timer_end, NULL);
+                return 0;
+
+            case BREAK:
+                // this is end of break timer
+                pomo_work_colors();
+                timer_run = defer_exec(t_pomo_work, pomo_timer_end, NULL);
+                return 0;
+
+            case PAUSE:
+                pomo_pause_colors();
+                timer_run = defer_exec(t_pomo_pause, pomo_timer_end, NULL);
+                /* pomo_off(); */
+                return 0;
+
+            case FINISHED:
+                pomo_off();
+                return 0;
+        }
+        return 0;
+    }
+}
+/* bool repeat = my_deferred_functionality(); */
+
+void pomo_start (void) {
+    if (pomo_loop == 0) {
+        pomo_work_colors();
+        timer_run = defer_exec(t_pomo_work, pomo_timer_end, NULL);
+    }
+}
+
+/* ___POMO timer tap dance _______________________________________________________ */
+void pomo_timer (tap_dance_state_t *state, void *user_data) {
+  switch (state->count) {
+  case 1:       // start if not running
+    pomo_start();
+    break;
+  case 2:       // stop if running
+    pomo_off();
+    reset_tap_dance (state);
+    break;
+  }
+}
+
+/* deferred_token my_token = defer_exec(10000, t10s, NULL); */
 /* ___ ALL TAP DANCE FUNCTIONS _________________________________________________ */
 //All tap dance functions would go here.
 
-qk_tap_dance_action_t tap_dance_actions[] = {
+tap_dance_action_t tap_dance_actions[] = {
     // navigation
-    [LE] =      ACTION_TAP_DANCE_DOUBLE (KC_LEFT,C(KC_LEFT)),
-    [RE] =      ACTION_TAP_DANCE_DOUBLE (KC_RGHT,C(KC_RGHT)),
+    [LE] =      ACTION_TAP_DANCE_DOUBLE (KC_LEFT,S(KC_LEFT)),
+    [RE] =      ACTION_TAP_DANCE_DOUBLE (KC_RGHT,S(KC_RGHT)),
     [UP] =      ACTION_TAP_DANCE_DOUBLE (KC_UP,KC_PGUP),
     [DN] =      ACTION_TAP_DANCE_DOUBLE (KC_DOWN,KC_PGDN),
 
@@ -756,11 +928,11 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     [CIRC] =    ACTION_TAP_DANCE_FN (dance_circ),
     [GRVE] =    ACTION_TAP_DANCE_FN (dance_grve),
 
+    [TERM] =    ACTION_TAP_DANCE_FN (dance_terminal),
+    [AWQT] = ACTION_TAP_DANCE_DOUBLE (KC_NO, LGUI(LSFT(KC_C))),
     // security stuff
     [LOGIN] =   ACTION_TAP_DANCE_FN (dance_login),
     [SECUR] =   ACTION_TAP_DANCE_FN (dance_secure),
-    /* [SWMAP] =   ACTION_TAP_DANCE_FN (dance_swap_map), */     // no longer needed as QWERTY layer removed
-//    [SWMAP] =   ACTION_TAP_DANCE_DOUBLE (DF(_QWERT), DF(_ISRT)),          // only dfefault keycodes work in a TD double
 
     // awesome client manipulation
     [AWLE] =    ACTION_TAP_DANCE_FN (aw_left_each),
@@ -768,14 +940,15 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 
     // thumb keys
     [SPCSFT] =  ACTION_TAP_DANCE_FN_ADVANCED (NULL, spcsft_finished, spcsft_reset),
-    /* [SPCSFT] =  ACTION_TAP_DANCE_FN_ADVANCED_TIME (NULL, spcsft_finished, spcsft_reset, 150), */
-//    [LEVEL] =   ACTION_TAP_DANCE_FN_ADVANCED_TIME (NULL, level_finished, level_reset, 150),
     [AW1] = ACTION_TAP_DANCE_FN (tdaw1),
     [AW2] = ACTION_TAP_DANCE_FN (tdaw2),
     [AW3] = ACTION_TAP_DANCE_FN (tdaw3),
     [AW4] = ACTION_TAP_DANCE_FN (tdaw4),
     [AW5] = ACTION_TAP_DANCE_FN (tdaw5),
     [AW6] = ACTION_TAP_DANCE_FN (tdaw6),
+    [POMO] = ACTION_TAP_DANCE_FN (pomo_timer),
+    [ARLF] = ACTION_TAP_DANCE_FN (arrow_left),                  // arrow left double taps
+    [ARRG] = ACTION_TAP_DANCE_FN (arrow_right),                 // arrow right double taps
     };
 
 
@@ -783,45 +956,40 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 /* ___ KEYMAPS ________________________________________________________________________ */
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-	/* [_QWERT] = LAYOUT( */
-	/* 	      KC_Q,     KC_W,    KC_E,    KC_R,    KC_T,       KC_Y,    KC_U,     KC_I,     KC_O,    KC_P, */ 
-	/* 	      KC_A,     KC_S,    KC_D,    KC_F,    KC_G,       KC_H,    KC_J,     KC_K,     KC_L,TD(COLN), */ 
-	/* 		  KC_Z,     KC_X,    KC_C,    KC_V,    KC_B,       KC_N,    KC_M,TD(DOTCOM),TD(QUOT),TD(PIPE), */ 
-	/* 						        TD(SPCSFT),   L_NAV,      L_NUM,  SPCCTRL), */ 
-							         /* L_NAV, TD(SPCSFT),     SPCCTRL,   L_NUM), */
-
-
 
 	[_ISRT] = LAYOUT(
-		      KC_Y,     KC_C,    KC_L,    KC_M,    KC_K,       KC_Z,    KC_F,      KC_U, TD(COLN),TD(PIPE), 
-		      KC_I,     KC_S,    KC_R,  T_LSFT,    KC_G,       KC_P,  N_LSFT,      KC_E,     KC_A,    KC_O, 
-			  CONF,     KC_V,    KC_W,    KC_D,    KC_J,       KC_B,    KC_H, TD(DOTCOM),  KC_COMM,    KC_X, 
-							          /* L_NAV, TD(SPCSFT),    SPCCTRL,   L_NUM), */
-							        /* TD(SPCSFT),   L_NAV,      L_NUM,  SPCCTRL), */
-							          L_NAV, TD(SPCSFT),      L_NUM,  ENTCTL),
+		      KC_Y,     KC_C,    KC_L,    KC_M,    KC_K,       KC_Z,    KC_F,     KC_U, KC_COMM, TD(PIPE),
+		      KC_I,     KC_S,    KC_R,  T_LSFT,    KC_G,       KC_P,  N_LSFT,     KC_E,    KC_A,     KC_O,
+  			  CONF,     KC_V,    KC_W,    KC_D,    KC_J,       KC_B,    KC_H, TD(COLN),    KC_DOT,   KC_X,
+							          TD(SPCSFT), L_NAV,       L_NUM, ENTCTL),
+                                    /* L_NAV, TD(SPCSFT),    SPCCTRL,   L_NUM), */
+                                    /* TD(SPCSFT),   L_NAV,      L_NUM,  SPCCTRL), */
+                                    /* L_NAV, TD(SPCSFT),      L_NUM,  ENTCTL), */
+                                    /* L_NAV, TD(SPCSFT), ENTCTL,    L_NUM), */
+
 
 
     [_NUM] = LAYOUT(
-		    KC_EXLM,   KC_AT, KC_HASH,  KC_DLR,  TD(CUR), TD(ASTSLA),    KC_7,    KC_8,    KC_9, KC_PLUS,
-		    KC_PERC,TD(CIRC),TD(TILD), KC_AMPR,  TD(SQR),     KC_EQL,    KC_4,    KC_5,    KC_6, TD(MINS),
-		    /* KC_PERC,    CIRC,    TILD, KC_AMPR,  TD(SQR),     KC_EQL,    KC_4,    KC_5,    KC_6, TD(MINS), */
-		    xxxxxxx, TD(QUOT),TD(GRVE),TD(MINS),  TD(RND),       KC_0,    KC_1,    KC_2,    KC_3,TD(DOTCOM),
-			                           /* L_NAV, TD(SPCSFT),       RTAB,   L_NUM), */
-			                        /* TD(SPCSFT),    L_NAV,      L_NUM,   RTAB), */
-							          L_NAV, TD(SPCSFT),      L_NUM,  RTAB),
+		     KC_EXLM,   KC_AT, KC_HASH, TD(CUR),   KC_DLR,       KC_PAST,    KC_7,    KC_8,    KC_9, KC_PPLS,
+		     KC_AMPR,TD(ARLF),TD(ARRG), TD(SQR), TD(QUOT),       KC_SLSH,    KC_4,    KC_5,    KC_6, TD(MINS),
+		    TD(CIRC),TD(TILD), KC_PERC, TD(RND), TD(GRVE),       KC_EQL,    KC_1,    KC_2,    KC_3,TD(DOTCOM),
+							          TD(SPCSFT), L_NAV, L_NUM,   KC_0),
+                                        /* L_NAV, TD(SPCSFT),       RTAB,   L_NUM), */
+                                        /* TD(SPCSFT),    L_NAV,      L_NUM,   RTAB), */
+                                        /* L_NAV,TD(SPCSFT),    RTAB,   L_NUM), */
 
 	[_NAV] = LAYOUT(
 		    TD(AW1), TD(AW2), TD(AW3), TD(AW4), TD(AW5),    TD(AW6), KC_HOME, xxxxxxx,  xxxxxxx,   AW_FS,
-		      AW_IS,   AW_DS,  AW_LAY,TD(AWLE),TD(AWRE),     TD(LE),  TD(DN),  TD(UP),   TD(RE),xxxxxxx,
-		      AW_QT,   AW_WP,   AW_TL,   AW_RN,   AW_MN,    xxxxxxx,  KC_END, xxxxxxx,  xxxxxxx,  AW_CON,
+		      AW_IS,   AW_DS,  AW_LAY,TD(AWLE),TD(AWRE),     TD(LE),  TD(DN),  TD(UP),   TD(RE), xxxxxxx,
+		    TD(AWQT),   AW_WP,   AW_TL,   AW_RN,   AW_MN,    xxxxxxx,  KC_END, xxxxxxx,  xxxxxxx,TD(TERM),
+                                        TD(SPCSFT), L_NAV, KC_DEL, RTAB),
 							          /* L_NAV, TD(SPCSFT),        RTAB,  KC_DEL), */
 							        /* TD(SPCSFT),   L_NAV,      KC_DEL,   RTAB), */
-							          L_NAV, TD(SPCSFT),      KC_DEL,   RTAB),
-
+							          /* L_NAV, TD(SPCSFT),  RTAB,      KC_DEL), */
 
     [_CONF] = LAYOUT(
-		    xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx,    xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx,   AW_LK,
-		    xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx,  TD(LOGIN), xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx,
+		    xxxxxxx, xxxxxxx, xxxxxxx,  AW_MON, xxxxxxx,    xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx,   AW_LK,
+		    xxxxxxx, xxxxxxx, xxxxxxx,TD(POMO), xxxxxxx,  TD(LOGIN), xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx,
 		    xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx,  TD(SECUR), xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx,
 							           xxxxxxx, xxxxxxx,    xxxxxxx, xxxxxxx),
 
@@ -829,13 +997,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* _________________________________________________________________________________________________ */
 // tri return enables _CONF when _NAV and _NUM are pressed together
-/* layer_state_t layer_state_set_user(layer_state_t state) { */
-/*   return update_tri_layer_state(state, _NUM, _NAV, _CONF); */
-/* } */
+layer_state_t layer_state_set_user(layer_state_t state) {
+  return update_tri_layer_state(state, _NUM, _NAV, _CONF);
+}
 
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
+          return false; // Skip all further processing of this key
       default:
        return true;
 
@@ -847,7 +1016,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 /* using encoder map as enabled in rules.mk */
 #if defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
-    /* [_QWERT] =  { ENCODER_CCW_CW(KC_RGHT, KC_LEFT),             ENCODER_CCW_CW(KC_DOWN, KC_UP) }, */
     [_ISRT] =   { ENCODER_CCW_CW(KC_RGHT, KC_LEFT),             ENCODER_CCW_CW(KC_DOWN, KC_UP)},    // same as QWERT
     [_NUM] =    { ENCODER_CCW_CW(LCTL(KC_RGHT), LCTL(KC_LEFT)),   }, /*  */
     [_NAV] =    { ENCODER_CCW_CW(KC_PGDN, KC_PGUP),              ENCODER_CCW_CW(KC_PGDN, KC_PGUP) },

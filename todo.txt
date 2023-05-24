@@ -1,5 +1,7 @@
 TODO
 
+- some todo to test git ... remove after
+
 - fix backspace repeat
 - need to add nav keys for VIM for this keyboard in VIM config. maybe switchable based on keyb
 - TRY in new branch ... holding N or T = SHFIT, holding E or R = CTRL
