@@ -32,7 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   #define RGBLIGHT_EFFECT_BREATHING
 
   /* #define RGBLIGHT_EFFECT_TWINKLE */
-  /* #define RGBLIGHT_EFFECT_TWINKLE_LIFE 70 */ 
+  /* #define RGBLIGHT_EFFECT_TWINKLE_LIFE 70 */
   /* #define RGBLIGHT_EFFECT_TWINKLE_PROBABILITY 1 */
 
   #define RGBLIGHT_LAYERS_RETAIN_VAL
@@ -103,18 +103,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // TAPPING
 // Home-row mods: https://precondition.github.io/home-row-mods#tap-hold-configuration-settings
 // Configure the global tapping term (default: 200ms)
-#define TAPPING_TERM_PER_KEY
-#ifdef TAPPING_TERM_PER_KEY
+#define QUICK_TAP_TERM_PER_KEY
+/* #define TAPPING_TERM_PER_KEY */
+/* #ifdef TAPPING_TERM_PER_KEY */
 #define TAPPING_TERM 170
-#else
+/* #else */
 // Only for thumbs
-#define TAPPING_TERM 180
-#endif
+/* #define TAPPING_TERM 180 */
+/* #endif */
 
 // Prevent normal rollover on alphas from accidentally triggering mods.
 #define IGNORE_MOD_TAP_INTERRUPT
 // Enable rapid switch from tap to hold, disables double tap hold auto-repeat.
-#define TAPPING_FORCE_HOLD
+// has been depreciated and replaced by ...
+#define QUICK_TAP_TERM 120
+/* #define TAPPING_FORCE_HOLD */
 // Apply the modifier on keys that are tapped during a short hold of a modtap
 #define PERMISSIVE_HOLD
 // Immediately turn on layer if key is pressed quickly
