@@ -447,9 +447,14 @@ void tdaw1 (tap_dance_state_t *state, void *user_data) {
     break;
   case 2:
     SEND_STRING(SS_LGUI(SS_LSFT("1")));   // could add to move to the respective screen
+    /* reset_tap_dance (state); */
+    break;
+  case 3:
+    SEND_STRING(SS_LGUI(SS_LSFT("1")));   // could add to move to the respective screen
+    SEND_STRING(SS_LGUI("1"));  // go to screen 1
     reset_tap_dance (state);
     break;
-  }
+    }
 }
 
 /* ---------------- */
@@ -460,9 +465,14 @@ void tdaw2 (tap_dance_state_t *state, void *user_data) {
     break;
   case 2:
     SEND_STRING(SS_LGUI(SS_LSFT("2")));   // could add to move to the respective screen
+    /* reset_tap_dance (state); */
+    break;
+  case 3:
+    SEND_STRING(SS_LGUI(SS_LSFT("2")));   // could add to move to the respective screen
+    SEND_STRING(SS_LGUI("2"));  // go to screen 1
     reset_tap_dance (state);
     break;
-  }
+    }
 }
 
 /* ---------------- */
@@ -473,9 +483,14 @@ void tdaw3 (tap_dance_state_t *state, void *user_data) {
     break;
   case 2:
     SEND_STRING(SS_LGUI(SS_LSFT("3")));   // could add to move to the respective screen
+    /* reset_tap_dance (state); */
+    break;
+ case 3:
+    SEND_STRING(SS_LGUI(SS_LSFT("3")));   // could add to move to the respective screen
+    SEND_STRING(SS_LGUI("3"));  // go to screen 1
     reset_tap_dance (state);
     break;
-  }
+    }
 }
 
 /* ---------------- */
@@ -486,9 +501,14 @@ void tdaw4 (tap_dance_state_t *state, void *user_data) {
     break;
   case 2:
     SEND_STRING(SS_LGUI(SS_LSFT("4")));   // could add to move to the respective screen
+    /* reset_tap_dance (state); */
+    break;
+ case 3:
+    SEND_STRING(SS_LGUI(SS_LSFT("4")));   // could add to move to the respective screen
+    SEND_STRING(SS_LGUI("4"));  // go to screen 1
     reset_tap_dance (state);
     break;
-  }
+    }
 }
 
 /* ---------------- */
@@ -499,9 +519,14 @@ void tdaw5 (tap_dance_state_t *state, void *user_data) {
     break;
   case 2:
     SEND_STRING(SS_LGUI(SS_LSFT("5")));   // could add to move to the respective screen
+    /* reset_tap_dance (state); */
+    break;
+ case 3:
+    SEND_STRING(SS_LGUI(SS_LSFT("5")));   // could add to move to the respective screen
+    SEND_STRING(SS_LGUI("5"));  // go to screen 1
     reset_tap_dance (state);
     break;
-  }
+    }
 }
 
 /* ---------------- */
@@ -512,9 +537,14 @@ void tdaw6 (tap_dance_state_t *state, void *user_data) {
     break;
   case 2:
     SEND_STRING(SS_LGUI(SS_LSFT("6")));   // could add to move to the respective screen
+    /* reset_tap_dance (state); */
+    break;
+  case 3:
+    SEND_STRING(SS_LGUI(SS_LSFT("6")));   // could add to move to the respective screen
+    SEND_STRING(SS_LGUI("6"));  // go to screen 1
     reset_tap_dance (state);
     break;
-  }
+    }
 }
 /* ---------------- */
 
