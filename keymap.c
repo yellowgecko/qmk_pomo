@@ -989,7 +989,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 	[_ISRT] = LAYOUT(
 		      KC_Y,     KC_C,    KC_L,    KC_M,    KC_K,       KC_Z,    KC_F,     KC_U, KC_COMM, TD(PIPE),
-		      KC_I,     KC_S,    KC_R,  T_LSFT,    KC_G,       KC_P,  N_LSFT,     KC_E,    KC_A,     KC_O,
+		      KC_I,     KC_S,    KC_R,    KC_T,    KC_G,       KC_P,    KC_N,     KC_E,    KC_A,     KC_O,
+		      /* KC_I,     KC_S,    KC_R,  T_LSFT,    KC_G,       KC_P,  N_LSFT,     KC_E,    KC_A,     KC_O, */
   			  CONF,     KC_V,    KC_W,    KC_D,    KC_J,       KC_B,    KC_H, TD(COLN),    KC_DOT,   KC_X,
 							          TD(SPCSFT), L_NAV,       L_NUM, ENTCTL),
                                     /* L_NAV, TD(SPCSFT),    SPCCTRL,   L_NUM), */
