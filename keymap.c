@@ -17,7 +17,8 @@ void matrix_init_user(void) {
 
 // ___ DEFINES __________________________________________________________________________
 // layers
-#define L_NAV MO(_NAV)
+#define L_NAV LT(_NAV, KC_ESC)
+/* #define L_NAV MO(_NAV) */
 #define L_NUM LT(_NUM, KC_BSPC)             // /*! TODO: enhance to tap hold to repeat backspace
 
 // cosmetic
@@ -133,7 +134,8 @@ enum {
 /* JK combo for nvim like esc */
 /* A/U/O umlaute          */
 enum _combos {
-  NVIM_ESC,                         // /*! TODO: find a better NVIM_ESC, maybe 'ii'
+  /* NVIM_ESC, */
+/*! TODO: find a better NVIM_ESC, maybe 'ii' */
   A_UML,
   O_UML,
   U_UML,
@@ -142,13 +144,13 @@ enum _combos {
 
 uint16_t COMBO_LEN = COMBO_LENGTH;  // remove the COMBO_COUNT define and use this instead!
 
-const uint16_t PROGMEM nvim_esc_combo[] = {KC_G, KC_P, COMBO_END};
+/* const uint16_t PROGMEM nvim_esc_combo[] = {KC_G, KC_P, COMBO_END}; */
 const uint16_t PROGMEM a_uml_combo[] = {KC_E, KC_A, COMBO_END};
 const uint16_t PROGMEM u_uml_combo[] = {KC_E, KC_U, COMBO_END};
 const uint16_t PROGMEM o_uml_combo[] = {KC_E, KC_O, COMBO_END};
 
 combo_t key_combos[] = {
-  [NVIM_ESC] = COMBO_ACTION(nvim_esc_combo),
+  /* [NVIM_ESC] = COMBO_ACTION(nvim_esc_combo), */
   [A_UML] = COMBO_ACTION(a_uml_combo),
   [U_UML] = COMBO_ACTION(u_uml_combo),
   [O_UML] = COMBO_ACTION(o_uml_combo),
@@ -156,12 +158,12 @@ combo_t key_combos[] = {
 
 void process_combo_event(uint16_t combo_index, bool pressed) {
   switch(combo_index) {
-    case NVIM_ESC:
-      if (pressed) {
-        tap_code(KC_ESC);
-        tap_code(KC_RGHT);
-      }
-      break;
+    /* case NVIM_ESC: */
+    /*   if (pressed) { */
+    /*     tap_code(KC_ESC); */
+    /*     tap_code(KC_RGHT); */
+    /*   } */
+    /*   break; */
     case A_UML:
       if (pressed) {
           register_code16 (KC_RSFT);    // this is using right shift so left shift can be used for capital letters.
