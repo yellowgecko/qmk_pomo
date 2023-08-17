@@ -1022,8 +1022,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_CONF] = LAYOUT(
 		    xxxxxxx, xxxxxxx, xxxxxxx,  AW_MON, xxxxxxx,    xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx,   AW_LK,
-		    xxxxxxx, xxxxxxx, xxxxxxx,TD(POMO), xxxxxxx,  TD(LOGIN), xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx,
-		    xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx,  TD(SECUR), xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx,
+		    xxxxxxx, xxxxxxx, xxxxxxx,TD(POMO), xxxxxxx,  TD(LOGIN), TD(TERM), xxxxxxx, xxxxxxx, xxxxxxx,
+		    xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, TD(AWQT),  TD(SECUR), xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx,
 							           xxxxxxx, xxxxxxx,    xxxxxxx, xxxxxxx),
 
 };
