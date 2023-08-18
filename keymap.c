@@ -1012,9 +1012,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                         /* L_NAV,TD(SPCSFT),    RTAB,   L_NUM), */
 
 	[_NAV] = LAYOUT(
-		    TD(AW1), TD(AW2), TD(AW3), TD(AW4), TD(AW5),    TD(AW6), KC_HOME, xxxxxxx,  xxxxxxx,   AW_FS,
-		      AW_IS,   AW_DS,  AW_LAY,TD(AWLE),TD(AWRE),     TD(LE),  TD(DN),  TD(UP),   TD(RE), xxxxxxx,
-		    TD(AWQT),   AW_WP,   AW_TL,   AW_RN,   AW_MN,    xxxxxxx,  KC_END, xxxxxxx,  xxxxxxx,TD(TERM),
+		    TD(AW1), TD(AW2), TD(AW3), TD(AW4), TD(AW5),    TD(AW6), KC_HOME, xxxxxxx,   xxxxxxx,   AW_FS,
+		      AW_IS,   AW_DS,  AW_LAY,TD(AWLE),TD(AWRE),     TD(LE),  TD(DN),  TD(UP),    TD(RE), xxxxxxx,
+		      AW_WP,   AW_TL,   AW_RN,   AW_MN,TD(TERM),   TD(AWQT), KC_END, xxxxxxx, xxxxxxx, xxxxxxx,
                                         TD(SPCSFT), L_NAV, KC_DEL, RTAB),
 							          /* L_NAV, TD(SPCSFT),        RTAB,  KC_DEL), */
 							        /* TD(SPCSFT),   L_NAV,      KC_DEL,   RTAB), */
@@ -1022,8 +1022,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_CONF] = LAYOUT(
 		    xxxxxxx, xxxxxxx, xxxxxxx,  AW_MON, xxxxxxx,    xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx,   AW_LK,
-		    xxxxxxx, xxxxxxx, xxxxxxx,TD(POMO), xxxxxxx,  TD(LOGIN), TD(TERM), xxxxxxx, xxxxxxx, xxxxxxx,
-		    xxxxxxx, xxxxxxx, xxxxxxx,TD(AWQT), xxxxxxx,  TD(SECUR), xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx,
+		    xxxxxxx, xxxxxxx, xxxxxxx,TD(POMO), xxxxxxx,  TD(LOGIN), xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx,
+		    xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx,  TD(SECUR), xxxxxxx, xxxxxxx, xxxxxxx, xxxxxxx,
 							           xxxxxxx, xxxxxxx,    xxxxxxx, xxxxxxx),
 
 };
