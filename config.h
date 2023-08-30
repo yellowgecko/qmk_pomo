@@ -105,10 +105,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Home-row mods: https://precondition.github.io/home-row-mods#tap-hold-configuration-settings
 // Configure the global tapping term (default: 200ms)
 #define QUICK_TAP_TERM_PER_KEY
-/* #define TAPPING_TERM_PER_KEY */
+#define TAPPING_TERM_PER_KEY
 /* #ifdef TAPPING_TERM_PER_KEY */
-#define TAPPING_TERM 140
-/* #define TAPPING_TERM 170 */
+/* #define TAPPING_TERM 140 */
+#define TAPPING_TERM 170
 /* #else */
 // Only for thumbs
 /* #define TAPPING_TERM 180 */
