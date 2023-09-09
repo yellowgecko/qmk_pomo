@@ -353,11 +353,11 @@ void dance_pipe_each (tap_dance_state_t *state, void *user_data) {
 void dance_circ (tap_dance_state_t *state, void *user_data) {
   switch (state->count) {
   case 1:
-        tap_code16(KC_CIRC);
+    del_mods(MOD_MASK_SHIFT);
+    tap_code16(LSFT(KC_6));
     break;
   case 2:
-      del_mods(MOD_MASK_SHIFT);
-      tap_code16(LSFT(KC_6));
+    tap_code16(KC_CIRC);
     break;
   case 3:
       reset_tap_dance (state);
