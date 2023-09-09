@@ -261,7 +261,8 @@ static tap xtap_state = { .is_press_action = true,
 void spcsft_finished (tap_dance_state_t *state, void *user_data) {
   xtap_state.state = cur_dance(state);
   switch (xtap_state.state) {
-    case SINGLE_TAP: register_code(KC_SPC); break;
+    case SINGLE_TAP: tap_code(KC_SPC); break;
+    /* case SINGLE_TAP: register_code(KC_SPC); break; */
     case SINGLE_HOLD: register_code(KC_LSFT); break;
     case DOUBLE_TAP: caps_word_on(); break;
     case DOUBLE_HOLD: break;
