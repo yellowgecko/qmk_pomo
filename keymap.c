@@ -289,7 +289,7 @@ void spcsft_reset (tap_dance_state_t *state, void *user_data) {
 /* ___ LAYER SWITCH _____________________________________________________________________ */
 // disabled one is the planck version
 uint8_t mod_state;
-/* __ ; : | __________DANCE COLON____________________________________________________ */
+/*__________DANCE COLON____________________________________________________ */
 /* three taps ; : |                              */
 void dance_colon_each (tap_dance_state_t *state, void *user_data) {
     switch (state->count) {
@@ -314,17 +314,17 @@ void dance_quote_each (tap_dance_state_t *state, void *user_data) {
   case 1:
       del_mods(MOD_MASK_SHIFT);
       tap_code16(KC_QUOT);
-      /* tap_code16(KC_SPC); */
+      tap_code16(KC_SPC);
     break;
   case 2:
       del_mods(MOD_MASK_SHIFT);
       tap_code16(LSFT(KC_QUOT));
-      /* tap_code16(KC_SPC); */
+      tap_code16(KC_SPC);
     break;
   case 3:
       del_mods(MOD_MASK_SHIFT);
       tap_code16(KC_GRAVE);       // dead key
-      /* tap_code16(KC_SPC); */
+      tap_code16(KC_SPC);
       reset_tap_dance (state);
     break;
   }
@@ -336,12 +336,12 @@ void dance_pipe_each (tap_dance_state_t *state, void *user_data) {
   case 1:
       del_mods(MOD_MASK_SHIFT);
       tap_code16(KC_SLSH);
-//      tap_code16(KC_SPC);
+      tap_code16(KC_SPC);
     break;
   case 2:
       del_mods(MOD_MASK_SHIFT);
       tap_code16(LSFT(KC_SLSH));
-//      tap_code16(KC_SPC);
+      tap_code16(KC_SPC);
     break;
   case 3:
       del_mods(MOD_MASK_SHIFT);
@@ -373,7 +373,7 @@ void dance_tild (tap_dance_state_t *state, void *user_data) {
   case 1:
       del_mods(MOD_MASK_SHIFT);
       tap_code16(LSFT(KC_GRAVE));
-      /* tap_code16(KC_SPC); */
+      tap_code16(KC_SPC);
     break;
   case 2:
       del_mods(MOD_MASK_SHIFT);
@@ -398,7 +398,7 @@ void dance_grve (tap_dance_state_t *state, void *user_data) {
   case 2:
       del_mods(MOD_MASK_SHIFT);
       tap_code16(LSFT(KC_GRAVE));
-//      tap_code16(KC_SPC);
+      tap_code16(KC_SPC);
     break;
   case 3:
       del_mods(MOD_MASK_SHIFT);
