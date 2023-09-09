@@ -226,9 +226,11 @@ void spcsft_reset    (tap_dance_state_t *state, void *user_data);
 
 int cur_dance (tap_dance_state_t *state) {
   if (state->count == 1) {
-    if (state->interrupted || !state->pressed)  return SINGLE_TAP;
+    if (state->interrupted)  return SINGLE_HOLD;
+    if (!state->pressed)  return SINGLE_TAP;
+    /* if (state->interrupted || !state->pressed)  return SINGLE_TAP; */
     //key has not been interrupted, but they key is still held. Means you want to send a 'HOLD'.
-  else return SINGLE_HOLD;
+    else return SINGLE_HOLD;
   }
   else if (state->count == 2) {
     /*
@@ -312,17 +314,17 @@ void dance_quote_each (tap_dance_state_t *state, void *user_data) {
   case 1:
       del_mods(MOD_MASK_SHIFT);
       tap_code16(KC_QUOT);
-      tap_code16(KC_SPC);
+      /* tap_code16(KC_SPC); */
     break;
   case 2:
       del_mods(MOD_MASK_SHIFT);
       tap_code16(LSFT(KC_QUOT));
-      tap_code16(KC_SPC);
+      /* tap_code16(KC_SPC); */
     break;
   case 3:
       del_mods(MOD_MASK_SHIFT);
       tap_code16(KC_GRAVE);       // dead key
-      tap_code16(KC_SPC);
+      /* tap_code16(KC_SPC); */
       reset_tap_dance (state);
     break;
   }
@@ -371,7 +373,7 @@ void dance_tild (tap_dance_state_t *state, void *user_data) {
   case 1:
       del_mods(MOD_MASK_SHIFT);
       tap_code16(LSFT(KC_GRAVE));
-      tap_code16(KC_SPC);
+      /* tap_code16(KC_SPC); */
     break;
   case 2:
       del_mods(MOD_MASK_SHIFT);
@@ -1006,7 +1008,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_NUM] = LAYOUT(
 		     KC_EXLM,   KC_AT, KC_HASH, TD(CUR),   KC_DLR,       KC_PAST,    KC_7,    KC_8,    KC_9, KC_PPLS,
 		     KC_AMPR,TD(ARLF),TD(ARRG), TD(SQR), TD(QUOT),       KC_SLSH,    KC_4,    KC_5,    KC_6, TD(MINS),
-		    TD(CIRC),TD(TILD), KC_PERC, TD(RND), TD(GRVE),       KC_EQL,    KC_1,    KC_2,    KC_3,TD(DOTCOM),
+		    TD(CIRC),TD(TILD), KC_PERC, TD(RND), xxxxxxx,       KC_EQL,    KC_1,    KC_2,    KC_3,TD(DOTCOM),
 							          TD(SPCSFT), L_NAV, L_NUM,   KC_0),
                                         /* L_NAV, TD(SPCSFT),       RTAB,   L_NUM), */
                                         /* TD(SPCSFT),    L_NAV,      L_NUM,   RTAB), */
