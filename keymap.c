@@ -1008,7 +1008,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_NUM] = LAYOUT(
 		     KC_EXLM,   KC_AT, KC_HASH, TD(CUR),   KC_DLR,       KC_PAST,    KC_7,    KC_8,    KC_9, KC_PPLS,
 		     KC_AMPR,TD(ARLF),TD(ARRG), TD(SQR), TD(QUOT),       KC_SLSH,    KC_4,    KC_5,    KC_6, TD(MINS),
-		    TD(CIRC),TD(TILD), KC_PERC, TD(RND), xxxxxxx,       KC_EQL,    KC_1,    KC_2,    KC_3,TD(DOTCOM),
+		    TD(CIRC),TD(TILD), KC_PERC, TD(RND), TD(CIRC),       KC_EQL,    KC_1,    KC_2,    KC_3,TD(DOTCOM),
 							          TD(SPCSFT), L_NAV, L_NUM,   KC_0),
                                         /* L_NAV, TD(SPCSFT),       RTAB,   L_NUM), */
                                         /* TD(SPCSFT),    L_NAV,      L_NUM,   RTAB), */
