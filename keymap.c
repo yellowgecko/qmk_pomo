@@ -417,10 +417,10 @@ void dance_secure (tap_dance_state_t *state, void *user_data) {
   case 1:
         break;
   case 2:
-        SEND_STRING("placebo\n");
+        SEND_STRING("********\n");
         break;
   case 3:
-       SEND_STRING("AlabamaDrivingLicense\n");
+       SEND_STRING("********\n");
        reset_tap_dance (state);
        break;
   }
